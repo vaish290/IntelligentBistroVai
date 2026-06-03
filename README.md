@@ -113,5 +113,17 @@ AI coding tools were used during development for:
 - Frontend + backend integration
 - AI-driven user experience
 
+## Problem
+Traditional restaurant ordering requires users to navigate multiple menus and screens before finding what they want. I wanted to explore whether ordering could feel more natural through conversational interactions.
+
+## Solution
+Intelligent Bistro is an AI-powered mobile application that allows users to place food orders using natural language. The system converts user requests into structured actions that update the cart, menu selections, and ordering workflow.
+
+## Challenges
+What seemed like a straightforward ordering app became significantly more complex when handling ambiguous user requests, maintaining application state across conversations, validating user actions, and designing conversational flows that felt natural while remaining predictable.
+
+## What I learned
+I learned that building AI-powered products is often less about the AI itself and more about designing reliable user experiences around imperfect inputs. Much of the work involved handling edge cases, validation, and creating intuitive workflows.
+
 ## Author
 ### Vaishnavi Rai
