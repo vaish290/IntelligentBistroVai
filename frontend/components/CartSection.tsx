@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, Pressable, StyleSheet, Alert } from "react-native";
 import { COLORS } from "../constants/theme";
 import type { CartItem } from "./store/cartStore";
+import { useRouter } from "expo-router";
 
 type Props = {
   cart: CartItem[];
@@ -11,6 +12,7 @@ type Props = {
   onClear: () => void;
 };
 
+
 export default function CartSection({
   cart,
   total,
@@ -18,14 +20,8 @@ export default function CartSection({
   onDecrease,
   onClear,
 }: Props) {
-  const handleCheckout = () => {
-    Alert.alert(
-      "Order Confirmed",
-      "Your vegetarian order has been placed successfully. Estimated pickup time: 20 minutes."
-    );
-    onClear();
-  };
-
+  
+  const router = useRouter();
   return (
     <View style={styles.section}>
       <View style={styles.header}>
@@ -77,8 +73,13 @@ export default function CartSection({
       </View>
 
       {cart.length > 0 && (
-        <Pressable style={styles.checkoutButton} onPress={handleCheckout}>
-          <Text style={styles.checkoutText}>Checkout</Text>
+        <Pressable
+          style={styles.checkoutButton}
+          onPress={() => router.push("/checkout")}
+        >
+          <Text style={styles.checkoutText}>
+            Checkout
+          </Text>
         </Pressable>
       )}
     </View>

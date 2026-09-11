@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, Text } from "react-native";
 
 import Header from "../components/Header";
@@ -9,10 +9,29 @@ import MenuCard from "../components/MenuCard";
 import CartSection from "../components/CartSection";
 
 import { COLORS } from "../constants/theme";
-import { menuItems } from "../data/menu";
+import { getMenu } from "../services/api";
+import type { MenuItem } from "../data/menu";
 import { useCartStore } from "../components/store/cartStore";
 
 export default function HomeScreen() {
+  const [menu, setMenu] = useState<MenuItem[]>([]);
+  const [loadingMenu, setLoadingMenu] = useState(true);
+  
+  useEffect(() => {
+  const loadMenu = async () => {
+    try {
+      const data = await getMenu();
+      setMenu(data);
+    } catch (error) {
+      console.log("MENU FETCH ERROR:", error);
+    } finally {
+      setLoadingMenu(false);
+    }
+  };
+
+  loadMenu();
+}, []);
+
   const {
     cart,
     addItem,
@@ -35,6 +54,7 @@ export default function HomeScreen() {
       <HeroCard />
 
       <AIAssistentCrd
+        menu={menu}
         onAdd={addItem}
         onClear={clearCart}
         onRemove={removeItem}
@@ -45,10 +65,13 @@ export default function HomeScreen() {
 
       <Text style={styles.sectionTitle}>Vegetarian Menu</Text>
 
-      {menuItems.map((item) => (
-        <MenuCard key={item.id} item={item} onAdd={addItem} />
-      ))}
-
+      {loadingMenu ? (
+          <Text>Loading menu...</Text>
+        ) : (
+          menu.map((item) => (
+            <MenuCard key={item.id} item={item} onAdd={addItem} />
+          ))
+        )}
       <CartSection
         cart={cart}
         total={total}
